@@ -1,0 +1,22 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/practicevueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+# mapper 扫描路径配置，在资源路径的mapper目录下
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+# 端口号
+server:
+  port: 8090
+# jwt的配置
+nebula:
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    # token有效时长，7天，单位为秒
+    expire: 604800
+    # 请求头key
+    header: Authorization
