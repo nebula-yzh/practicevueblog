@@ -8,11 +8,14 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +30,7 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends AuthenticatingFilter {
 
-    @Autowired
+    @Resource
     JwtUtils jwtUtils;
 
     /**
@@ -72,7 +75,7 @@ public class JwtFilter extends AuthenticatingFilter {
             if (claim == null || jwtUtils.isTokenExpired(claim.getExpiration())) {
                 throw new ExpiredCredentialsException("token已失效，请重新登录！");
             }
-            //执行登录
+            //存在token信息，且校验成功，那么执行登录操作
             return executeLogin(request, response);
 
         } else {

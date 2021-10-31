@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     UserService userService;
 
     /**

@@ -10,29 +10,31 @@ import com.nebula.practicevueblog.service.UserService;
 import com.nebula.practicevueblog.util.JwtUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Nebula
  * @date 2021/10/30 17:37
- * @description: 用户登录，退出登录controller
+ * @description: 用户登录，退出登录
  */
 @RestController
 public class AccountController {
-    @Autowired
+    @Resource
     UserService userService;
 
-    @Autowired
+    @Resource
     JwtUtils jwtUtils;
 
+    /**
+     * 默认账号密码：markerhub / 111111
+     *
+     */
+    //@CrossOrigin
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDTO loginDto, HttpServletResponse response) {
 

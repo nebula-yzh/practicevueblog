@@ -5,6 +5,11 @@ spring:
     url: jdbc:mysql://localhost:3306/practicevueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: root
+    # 热部署启动
+  devtools:
+    restart:
+      enabled: true
+
 # mapper 扫描路径配置，在资源路径的mapper目录下
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
@@ -20,3 +25,13 @@ nebula:
     expire: 604800
     # 请求头key
     header: Authorization
+
+# shiro-redis配置，需要启动redis
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
+    password:
+
+
+

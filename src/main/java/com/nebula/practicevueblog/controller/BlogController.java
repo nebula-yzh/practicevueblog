@@ -15,20 +15,21 @@ import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
  * <p>
  *  前端控制器
+ *  博客页面
  * </p>
  *
  * @author nebula
  * @since 2021-10-29
  */
 @RestController
-@RequestMapping("/blog")
 public class BlogController {
-    @Autowired
+    @Resource
     BlogService blogService;
 
     /**

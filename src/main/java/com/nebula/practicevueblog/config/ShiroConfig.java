@@ -1,6 +1,8 @@
 package com.nebula.practicevueblog.config;
 
 import com.nebula.practicevueblog.shrio.JwtFilter;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -11,10 +13,13 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.nebula.practicevueblog.shrio.AccountRealm;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -26,20 +31,22 @@ import java.util.Map;
  * @description: com.nebula.practicevueblog.shrio 配置类，启动注解拦截控制器
  */
 @Configuration
-public class ShrioConfig {
+public class ShiroConfig {
 
-    @Autowired
+    @Resource
     JwtFilter jwtFilter;
 
-    @Autowired
+
+    @Resource
     RedisSessionDAO redisSessionDAO;
+    
 
-    @Autowired
+    @Resource
     RedisCacheManager redisCacheManager;
-
 
     @Bean
     public SessionManager sessionManager() {
+
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 
         // inject redisSessionDAO
@@ -51,6 +58,7 @@ public class ShrioConfig {
     public DefaultWebSecurityManager securityManager(AccountRealm accountRealm,
                                                      SessionManager sessionManager) {
 
+
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(accountRealm);
 
         //inject sessionManager
@@ -58,6 +66,14 @@ public class ShrioConfig {
 
         // inject redisCacheManager
         securityManager.setCacheManager(redisCacheManager);
+
+        //关闭shiro自带的session，详情见文档
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
+
         return securityManager;
     }
 

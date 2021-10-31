@@ -11,6 +11,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 
 /**
  * @author Nebula
@@ -20,10 +22,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountRealm extends AuthorizingRealm {
 
-    @Autowired
+    @Resource
     JwtUtils jwtUtils;
 
-    @Autowired
+    @Resource
     UserService userService;
     /**
      * 重写支持的token
